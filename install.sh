@@ -26,7 +26,12 @@ fi
 mkdir -p "$WS/references"; cd "$WS"
 repos=$(gh repo list "$ORG" --limit 100 --json name --jq '.[].name' | grep '^mgm-' | grep -v '^mgm-setup$')
 for r in $repos; do
-  if [ -d "$r/.git" ]; then git -C "$r" pull --ff-only --quiet || echo "WARNING: $r not updated"
+  if [ -e "$r" ] && ! git -C "$r" rev-parse --git-dir >/dev/null 2>&1; then
+    # A clone that stopped halfway: keep it aside (nothing is deleted) and clone again.
+    aside="$r.broken-$(date +%Y%m%d%H%M%S)"; echo "WARNING: $r is not a working git repo; moved to $aside"
+    mv "$r" "$aside"
+  fi
+  if [ -d "$r" ]; then git -C "$r" pull --ff-only --quiet || echo "WARNING: $r not updated"
   else gh repo clone "$ORG/$r" "$r" -- --quiet || echo "WARNING: $r not cloned"; fi
 done
 

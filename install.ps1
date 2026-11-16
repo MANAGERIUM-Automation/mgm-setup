@@ -41,7 +41,16 @@ New-Item -ItemType Directory -Force $Ws, "$Ws\references" | Out-Null
 Set-Location $Ws
 $repos = gh repo list $Org --limit 100 --json name --jq '.[].name' | Where-Object { $_ -like 'mgm-*' -and $_ -ne 'mgm-setup' }
 foreach ($r in $repos) {
-    if (Test-Path "$r\.git") { git -C $r pull --ff-only --quiet } else { gh repo clone "$Org/$r" $r -- --quiet }
+    if (Test-Path $r) {
+        & git -C $r rev-parse --git-dir *> $null
+        if ($LASTEXITCODE -ne 0) {
+            # A clone that stopped halfway: keep it aside (nothing is deleted) and clone again.
+            $aside = "$r.broken-$(Get-Date -Format yyyyMMddHHmmss)"
+            Write-Warning "$r is not a working git repo; moved to $aside and cloning again"
+            Rename-Item $r $aside
+        }
+    }
+    if (Test-Path $r) { git -C $r pull --ff-only --quiet } else { gh repo clone "$Org/$r" $r -- --quiet }
     if ($LASTEXITCODE -ne 0) { Write-Warning "$r could not be cloned / updated" }
 }
 
