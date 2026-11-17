@@ -21,6 +21,10 @@ creates one Python environment (`.venv`), links the shared parts of `mgm-core` i
 and clones the read-only product source from GitLab (asks for your GitLab login the first time).
 Run it again any time to update everything.
 
-Then open **your own repo** in VS Code and start Claude Code there:
+It also writes `Managerium-QA.code-workspace` next to the repos (once; your own copy is kept).
+Open it in VS Code (`code ~/Managerium-QA/Managerium-QA.code-workspace`): every repo is its own
+folder and the Testing view lists the RTM, Web and Mobile tests.
+
+Then work in **your own repo** folder and start Claude Code there:
 `mgm-RTM` (Shawkat), `mgm-web` (Rafsana Kabir Samanta), `mgm-mobileApp` (Rakib). Rules and the folder guide
 (Bangla) are in `mgm-core`: `CLAUDE.md`, `STRUCTURE_GUIDELINE.md`.

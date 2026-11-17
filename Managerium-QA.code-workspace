@@ -1,0 +1,18 @@
+{
+  // Managerium QA workspace, written by the installer next to the repos. Open it in VS Code
+  // (File > Open Workspace from File..., or: code Managerium-QA.code-workspace) so every repo is its
+  // own folder: the Testing view then lists each repo's tests, discovered from that repo with its own
+  // .vscode/settings.json (shared ../.venv, pytest, test_scripts), .env and conftest.
+  "folders": [
+    { "name": "RTM (mgm-RTM)", "path": "mgm-RTM" },
+    { "name": "Web (mgm-web)", "path": "mgm-web" },
+    { "name": "Mobile App (mgm-mobileApp)", "path": "mgm-mobileApp" },
+    { "name": "Core (mgm-core)", "path": "mgm-core" }
+  ],
+  "settings": {
+    // Off by default; each QA repo turns pytest on in its own .vscode/settings.json.
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": false,
+    "python.terminal.useEnvFile": true
+  }
+}

@@ -76,5 +76,15 @@ foreach ($r in $repos | Where-Object { $_ -ne 'mgm-core' }) {
 try { powershell -NoProfile -ExecutionPolicy Bypass -File "$Ws\mgm-core\tools\setup-references.ps1" }
 catch { Write-Warning "references not updated: $_  (rerun mgm-core\tools\setup-references.ps1 later)" }
 
+# 7. VS Code workspace: every repo as its own folder, so the Testing view lists each repo's tests.
+#    Written once; a workspace file you already have is kept.
+$wsFile = "$Ws\Managerium-QA.code-workspace"
+if (-not (Test-Path $wsFile)) {
+    try { Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/MANAGERIUM-Automation/mgm-setup/main/Managerium-QA.code-workspace" -OutFile $wsFile }
+    catch { Write-Warning "VS Code workspace file not downloaded: $_" }
+}
+
 Write-Host "`nDone. Workspace: $Ws"
-Write-Host "Open YOUR repo in VS Code and start Claude there, e.g.:  code `"$Ws\mgm-web`""
+Write-Host "Open the workspace in VS Code (Testing view lists RTM, Web and Mobile tests):"
+Write-Host "  code `"$wsFile`""
+Write-Host "Work and start Claude in YOUR repo folder there (mgm-RTM, mgm-web or mgm-mobileApp)."

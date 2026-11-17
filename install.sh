@@ -58,5 +58,12 @@ done
 # 6. Product source (GitLab, read-only); asks for GitLab login the first time
 bash mgm-core/tools/setup-references.sh </dev/tty || echo "WARNING: references not updated (rerun mgm-core/tools/setup-references.sh later)"
 
+# 7. VS Code workspace: every repo as its own folder, so the Testing view lists each repo's tests.
+#    Written once; a workspace file you already have is kept.
+ws_file="$WS/Managerium-QA.code-workspace"
+[ -f "$ws_file" ] || curl -fsSL "https://raw.githubusercontent.com/MANAGERIUM-Automation/mgm-setup/main/Managerium-QA.code-workspace" -o "$ws_file" || echo "WARNING: VS Code workspace file not downloaded"
+
 echo; echo "Done. Workspace: $WS"
-echo "Open YOUR repo in VS Code and start Claude there, e.g.:  code \"$WS/mgm-web\""
+echo "Open the workspace in VS Code (Testing view lists RTM, Web and Mobile tests):"
+echo "  code \"$ws_file\""
+echo "Work and start Claude in YOUR repo folder there (mgm-RTM, mgm-web or mgm-mobileApp)."
