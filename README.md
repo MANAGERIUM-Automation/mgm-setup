@@ -22,5 +22,5 @@ and clones the read-only product source from GitLab (asks for your GitLab login 
 Run it again any time to update everything.
 
 Then open **your own repo** in VS Code and start Claude Code there:
-`mgm-RTM` (Shawkat), `mgm-web` (Samantha), `mgm-mobileApp` (Rakib). Rules and the folder guide
+`mgm-RTM` (Shawkat), `mgm-web` (Rafsana Kabir Samanta), `mgm-mobileApp` (Rakib). Rules and the folder guide
 (Bangla) are in `mgm-core`: `CLAUDE.md`, `STRUCTURE_GUIDELINE.md`.
